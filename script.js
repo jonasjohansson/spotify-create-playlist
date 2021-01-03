@@ -58,7 +58,7 @@ window.trimList = function() {
     }
     // remove parenthesis
     if (removeParenthesis){
-      track = track.replace(/\s*\(.*?\)\s*/g, ''));
+      track = track.replace(/\s*\(.*?\)\s*/g, '');
     }
     // if either the track or the artist has yet to be identified, skip!
     if (track === "") i--;
