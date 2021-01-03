@@ -12,6 +12,7 @@ const REDIRECT_URI =
 let accessToken;
 
 const tracklist = document.querySelector('#tracklist');
+const trimlist = document.querySelector('#trimlist');
 const playlist = document.querySelector('#playlist');
 const connectButton = document.querySelector('#connectButton');
 const getButton = document.querySelector('#getButton');
@@ -23,9 +24,46 @@ connectButton.addEventListener('click', function () {
 var tracks = [];
 var fetchCounter = 0;
 
+window.trimList = function () {
+	var lines = tracklist.value.split('\n');
+
+	console.log(lines);
+	trimlist.value = '';
+
+	for (let i = 0; i < lines.length; i++) {
+		lines[i] = lines[i].replace('&', '');
+		lines[i] = lines[i].replace(' - ', ' ');
+		lines[i] = lines[i].replace(/\s*\(.*?\)\s*/g, '');
+		lines[i] = lines[i].replace(/\s*\[.*?\]\s*/g, '');
+		n = lines[i].indexOf('feat');
+		lines[i] = lines[i].substring(0, n != -1 ? n : lines[i].length);
+		lines[i] = lines[i].trim();
+	}
+
+	// loop through lines, skip the header data and only look at every third group
+	for (let i = 0; i < lines.length - 1; i = i + 3) {
+		let track = lines[i + 1].toLowerCase();
+		let artist = lines[i + 2].toLowerCase();
+
+		// if either the track or the artist has yet to be identified, skip!
+		if (track === '') i--;
+		if (artist === '') i--;
+		if (
+			track === 'id' ||
+			artist === 'id' ||
+			track === 'unknown' ||
+			artist === 'unknown'
+		) {
+			continue;
+		}
+		trimlist.value += artist + ' ' + track + '\r\n';
+	}
+};
+
 window.getTracks = () => {
 	// remove white space
-	var val = tracklist.value.trim();
+	var val =
+		trimlist.length > 0 ? trimlist.value.trim() : tracklist.value.trim();
 
 	// remove hypens
 	val = val.replace(/-/g, '');
@@ -44,36 +82,8 @@ window.getTracks = () => {
 	fetchTrack(tracks[fetchCounter]);
 };
 
-window.trimList = function () {
-	var lines = tracklist.value.split('\n');
-	tracklist.value = '';
-
-	// loop through lines, skip the header data and only look at every third group
-	for (let i = 0; i < lines.length - 1; i = i + 3) {
-		let track = lines[i + 1].toLowerCase();
-		let artist = lines[i + 2].toLowerCase();
-
-		// if either the track or the artist has yet to be identified, skip!
-		if (track === '') i--;
-		if (artist === '') i--;
-		if (
-			track === 'id' ||
-			artist === 'id' ||
-			track === 'unknown' ||
-			artist === 'unknown'
-		) {
-			continue;
-		}
-		tracklist.value += artist + ' ' + track + '\n';
-	}
-};
-
 const fetchTrack = (term) => {
-	term = term.replace('&', '');
-	term = term.replace(' – ', ' ');
-	term = term.replace(/\s*\(.*?\)\s*/g, '');
-	term = term.substring(0, term.indexOf('feat'));
-	tracklist.value += term + '\n';
+	// tracklist.value += term + '\n';
 	fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
