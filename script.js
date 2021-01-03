@@ -25,6 +25,9 @@ var fetchCounter = 0;
 window.getTracks = () => {
   // remove white space
   var val = tracklist.value.trim();
+  
+  // remove hypens
+  val = val.replace(/-/g, "");
 
   // get lines from textarea
   tracks = val.split("\n");
@@ -42,11 +45,21 @@ window.getTracks = () => {
 
 window.trimList = function() {
   var lines = tracklist.value.split("\n");
+  var removeParenthesis = document.querySelector("#parenthesis").value;
+  var removeString = document.querySelector("#after").value;
   tracklist.value = "";
   // loop through lines, skip the header data and only look at every third group
   for (let i = 0; i < lines.length; i = i + 3) {
     let track = lines[i + 1].toLowerCase();
     let artist = lines[i + 2].toLowerCase();
+    // remove user defined string
+    if (removeString.length > 0){
+      track = track.substring(0, track.indexOf(removeString));
+    }
+    // remove parenthesis
+    if (removeParenthesis){
+      track = track.replace(/\s*\(.*?\)\s*/g, ''));
+    }
     // if either the track or the artist has yet to be identified, skip!
     if (track === "") i--;
     if (artist === "") i--;
