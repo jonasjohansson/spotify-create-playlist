@@ -27,17 +27,16 @@ var fetchCounter = 0;
 window.trimList = function () {
 	var lines = tracklist.value.split('\n');
 
-	console.log(lines);
 	trimlist.value = '';
 
 	for (let i = 0; i < lines.length; i++) {
-		lines[i] = lines[i].replace('&', '');
-		lines[i] = lines[i].replace(' - ', ' ');
-		lines[i] = lines[i].replace(/\s*\(.*?\)\s*/g, '');
-		lines[i] = lines[i].replace(/\s*\[.*?\]\s*/g, '');
+		lines[i] = lines[i].replace('&', ''); // remove ampersands
+		lines[i] = lines[i].replace(/-/g, ''); // remove hypens
+		lines[i] = lines[i].replace(/\s*\(.*?\)\s*/g, ''); // remove ()
+		lines[i] = lines[i].replace(/\s*\[.*?\]\s*/g, ''); // remove []
 		n = lines[i].indexOf('feat');
 		lines[i] = lines[i].substring(0, n != -1 ? n : lines[i].length);
-		lines[i] = lines[i].trim();
+		lines[i] = lines[i].trim(); // remove whitespace
 	}
 
 	// loop through lines, skip the header data and only look at every third group
@@ -61,22 +60,15 @@ window.trimList = function () {
 };
 
 window.getTracks = () => {
-	// remove white space
-	var val =
-		trimlist.length > 0 ? trimlist.value.trim() : tracklist.value.trim();
-
-	// remove hypens
-	val = val.replace(/-/g, '');
-
 	// get lines from textarea
-	tracks = val.split('\n');
+	tracks = trimlist.value.split('\n');
 
 	// start counter from 0
 	fetchCounter = 0;
 
 	// reset playlist entries
 	playlist.value = '';
-	tracklist.value = '';
+	// tracklist.value = '';
 
 	// fetch each track from the Spotify API
 	fetchTrack(tracks[fetchCounter]);
