@@ -6,7 +6,7 @@ const SCOPES = [
   "user-modify-playback-state"
 ];
 const CLIENT_ID = "55241705cb7544cebe06e969f181539b";
-const REDIRECT_URI = "https://spotify-create-playlist.glitch.me/";
+const REDIRECT_URI = "https://jonasjohansson.github.io/spotify-create-playlist/";
 
 let accessToken;
 
