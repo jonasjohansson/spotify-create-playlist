@@ -49,7 +49,7 @@ window.trimList = function () {
 	tracklist.value = '';
 
 	// loop through lines, skip the header data and only look at every third group
-	for (let i = 0; i < lines.length; i = i + 3) {
+	for (let i = 0; i < lines.length - 1; i = i + 3) {
 		let track = lines[i + 1].toLowerCase();
 		let artist = lines[i + 2].toLowerCase();
 
