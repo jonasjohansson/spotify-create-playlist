@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <h1>
+      Generate Spotify playlist based on text
+    </h1>
+    <div>
+      <h3>
+        Step 1
+      </h3>
+      <p>
+        Authorise the Playlist app (for some reason you have to press this
+        twice…)
+      </p>
+      <button id="connectButton">
+        Connect to Spotify
+      </button>
+    </div>
+    <div>
+      <h3>
+        Step 2
+      </h3>
+      <p>
+        Add list of tracks. The search will be done on whatever is on each line.
+      </p>
+      <textarea id="tracklist">
+London Acid Siren Eyes
+The Editors Upside Down (Joris Voorn Instrumental Mix)
+Litherland Ida's World (Hiver Remix)
+A Friend of Marcus Multiple Rays
+      </textarea>
+      <br />
+      <button id="trimButton" onclick="trimList()">
+        Trim List (if copied from Mixcloud)
+      </button>
+      <button id="getButton" onclick="getTracks()" disabled>Get Tracks</button>
+      <h3>
+        Step 3
+      </h3>
+      <p>
+        Copy the list of Spotify URI's and paste in your Spotify playlist!
+        (tracks that Spotify can't find will not appear)
+      </p>
+      <textarea id="playlist"></textarea>
+    </div>
+  </body>
+</html>
