@@ -37,6 +37,9 @@ window.trimList = function () {
 		n = lines[i].indexOf('feat');
 		lines[i] = lines[i].substring(0, n != -1 ? n : lines[i].length);
 		lines[i] = lines[i].trim(); // remove whitespace
+		if (lines[i].contains("Hour 1:") || lines[i].contains("Hour 2:")){
+			lines.splice[1,i)
+		}
 	}
 
 	// loop through lines, skip the header data and only look at every third group
