@@ -48,8 +48,9 @@ window.trimList = function () {
 		line = line.replace(/-/g, '') // remove hypens
 		line = line.replace(/\s*\(.*?\)\s*/g, '') // remove ()
 		line = line.replace(/\s*\[.*?\]\s*/g, '') // remove []
-		n = line.indexOf('feat.')
-		line = line.substring(0, n != -1 ? n : line.length)
+		line = line.replace('feat.', '')
+		line = line.replace('feat', '')
+		line = line.replace('ft', '')
 		line = line.trim() // remove whitespace
 		if (line.includes('Hour 1:') || line.includes('Hour 2:') || line === 'N/A') {
 			removeLines.push(i - 1)
