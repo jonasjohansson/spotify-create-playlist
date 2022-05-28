@@ -38,7 +38,7 @@ window.trimList = function () {
 		lines[i] = lines[i].substring(0, n != -1 ? n : lines[i].length);
 		lines[i] = lines[i].trim(); // remove whitespace
 		if (lines[i].contains("Hour 1:") || lines[i].contains("Hour 2:")){
-			lines.splice[2,i-1)
+			lines.splice(2,i-1)
 		}
 	}
 
