@@ -38,21 +38,17 @@ window.trimList = function () {
 
 	trimlist.value = ''
 
-	var offset = 0
-
-	console.log(lines)
-
 	for (let i = 0; i < lines.length; i++) {
-		let line = lines[i]
-		line = line.replace('&', '') // remove ampersands
-		line = line.replace(/-/g, '') // remove hypens
-		line = line.replace(/\s*\(.*?\)\s*/g, '') // remove ()
-		line = line.replace(/\s*\[.*?\]\s*/g, '') // remove []
-		line = line.replace('feat.', '')
-		line = line.replace('feat', '')
-		line = line.replace('ft', '')
-		line = line.trim() // remove whitespace
-		if (line.includes('Hour 1:') || line.includes('Hour 2:') || line === 'N/A') {
+		lines[i] = lines[i].toLowerCase()
+		lines[i] = lines[i].replace('&', '') // remove ampersands
+		lines[i] = lines[i].replace(/-/g, '') // remove hypens
+		lines[i] = lines[i].replace(/\s*\(.*?\)\s*/g, '') // remove ()
+		lines[i] = lines[i].replace(/\s*\[.*?\]\s*/g, '') // remove []
+		lines[i] = lines[i].replace(/ feat./i, '') // remove feat
+		lines[i] = lines[i].replace(/ feat/i, '') // remove feat
+		lines[i] = lines[i].replace(/ ft./i, '') // remove feat
+		lines[i] = lines[i].trim() // remove whitespace
+		if (lines[i].includes('hour 1:') || lines[i].includes('hour 2:') || lines[i] === 'n/a') {
 			removeLines.push(i - 1)
 			removeLines.push(i)
 		}
@@ -60,7 +56,6 @@ window.trimList = function () {
 
 	for (let i = removeLines.length - 1; i >= 0; i--) {
 		lines.splice(removeLines[i], 1)
-		console.log(lines)
 	}
 
 	// loop through lines, skip the header data and only look at every third group
