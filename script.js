@@ -12,6 +12,19 @@ const playlist = document.querySelector('#playlist')
 const connectButton = document.querySelector('#connectButton')
 const getButton = document.querySelector('#getButton')
 
+tracklist.textContent = `1
+Hour 1: John Digwwed live from E1, Bedrock Easter 2022.
+2
+N/A
+3
+Hour 2: Josh Wink
+4
+Bhuka
+Axel Boman Feat. Kamohelo
+5
+A Conscious Machine
+Steve Bug`
+
 connectButton.addEventListener('click', function () {
 	accessToken = getAccessToken()
 })
@@ -21,8 +34,13 @@ var fetchCounter = 0
 
 window.trimList = function () {
 	var lines = tracklist.value.split('\n')
+	var removeLines = new Array()
 
 	trimlist.value = ''
+
+	var offset = 0
+
+	console.log(lines)
 
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i]
@@ -30,12 +48,18 @@ window.trimList = function () {
 		line = line.replace(/-/g, '') // remove hypens
 		line = line.replace(/\s*\(.*?\)\s*/g, '') // remove ()
 		line = line.replace(/\s*\[.*?\]\s*/g, '') // remove []
-		n = line.indexOf('feat')
+		n = line.indexOf('feat.')
 		line = line.substring(0, n != -1 ? n : line.length)
 		line = line.trim() // remove whitespace
-		if (lines[i].includes('Hour 1:') || lines[i].includes('Hour 2:')) {
-			lines.splice(i - 1, 2)
+		if (line.includes('Hour 1:') || line.includes('Hour 2:') || line === 'N/A') {
+			removeLines.push(i - 1)
+			removeLines.push(i)
 		}
+	}
+
+	for (let i = removeLines.length - 1; i >= 0; i--) {
+		lines.splice(removeLines[i], 1)
+		console.log(lines)
 	}
 
 	// loop through lines, skip the header data and only look at every third group
